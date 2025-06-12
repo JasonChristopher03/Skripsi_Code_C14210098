@@ -1,0 +1,12 @@
+streamlit
+torch
+transformers
+langchain
+langchain-community
+sentencepiece
+chromadb
+rank_bm25
+sentence-transformers
+google-cloud-storage
+pymupdf
+scikit-learn
