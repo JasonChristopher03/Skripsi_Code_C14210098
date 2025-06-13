@@ -1,0 +1,27 @@
+# Base image: ringan dan sudah siap untuk production
+FROM python:3.10-slim
+
+# Set working directory
+WORKDIR /app
+
+# Install sistem dependencies minimal untuk Python + Streamlit + Model
+RUN apt-get update && apt-get install -y \
+    git \
+    curl \
+    gcc \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy requirements dulu (supaya Docker cache lebih efektif)
+COPY requirements.txt .
+
+# Install Python dependencies
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy semua source code
+COPY . .
+
+# Expose port 8080 untuk Cloud Run
+EXPOSE 8080
+
+# Run Streamlit
+CMD ["streamlit", "run", "app.py", "--server.port=8080", "--server.address=0.0.0.0", "--server.headless=true", "--server.enableCORS=false", "--server.enableXsrfProtection=false"]
