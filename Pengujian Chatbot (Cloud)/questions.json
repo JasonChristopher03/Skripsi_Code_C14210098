@@ -1,0 +1,114 @@
+{
+    "Introduction to AI": {
+        "questions": [
+            "Apa saja manfaat utama AI?",
+            "Bagaimana sejarah perkembangan AI?",
+            "Apa tantangan utama dalam pengembangan AI?",
+            "Apa saja jenis-jenis AI?",
+            "Bagaimana cara kerja AI dalam sistem rekomendasi?",
+            "Apa itu Kecerdasan Buatan (AI)?",
+            "Apa peran data dalam pengembangan AI?",
+            "Berikan contoh kegunaan AI dalam kehidupan sehari-hari?",
+            "Bagaimana etika terkait dengan penggunaan AI?",
+            "Apa dampak AI terhadap pekerjaan manusia?"
+        ]
+    },
+    "Heuristic Search": {
+        "questions": [
+            "Apa itu pencarian heuristik?",
+            "Bagaimana cara kerja algoritma A*?",
+            "Kapan pencarian heuristik digunakan?",
+            "Apa itu fungsi heuristik?",
+            "Bagaimana cara kerja Depth First Search?",
+            "Apa itu Algoritma Greedy?",
+            "Bagaimana pencarian `heuristik` membantu pengambilan keputusan?",
+            "Apa kelemahan pencarian heuristik?",
+            "Apa itu Algoritma Hill Climbing?",
+            "Berikan contoh penerapan pencarian heuristik di dunia nyata?"
+        ]
+    },
+    "Genetic Algorithm and Nature Inspired Algorithms": {
+        "questions": [
+            "Apa itu algoritma genetika, dan bagaimana cara kerjanya secara sederhana?",
+            "Mengapa algoritma genetika disebut terinspirasi dari alam?",
+            "Apa contoh nyata penggunaan algoritma genetika?",
+            "Bagaimana 'seleksi' bekerja dalam algoritma genetika?",
+            "Apa itu 'mutasi', dan mengapa itu penting dalam algoritma genetika?",
+            "Bagaimana algoritma genetika digunakan untuk menyelesaikan masalah sulit?",
+            "Apa perbedaan antara algoritma genetika dan pendekatan tradisional?",
+            "Apa itu 'populasi' dalam algoritma genetika?",
+            "Mengapa algoritma genetika cocok untuk pemula yang belajar AI?",
+            "Apa manfaat utama dari algoritma yang terinspirasi dari alam?"
+        ]
+    },
+    "Rule based AI and Fuzzy Logic": {
+        "questions": [
+            "Apa itu AI berbasis aturan?",
+            "Bagaimana cara kerja aturan IF-THEN dalam AI?",
+            "Apa itu logika fuzzy, dan bagaimana ia berbeda dari logika biasa?",
+            "Apa contoh penggunaan logika fuzzy di kehidupan sehari-hari?",
+            "Bagaimana AI berbasis aturan membuat keputusan?",
+            "Mengapa logika fuzzy cocok untuk situasi yang tidak pasti?",
+            "Apa perbedaan antara sistem berbasis aturan dan pembelajaran mesin?",
+            "Bagaimana logika fuzzy membantu AI bekerja lebih fleksibel?",
+            "Apa manfaat sistem berbasis aturan untuk pemula dalam AI?",
+            "Apa itu 'sistem pakar', dan bagaimana cara kerjanya?"
+        ]
+    },
+    "Machine Learning": {
+        "questions": [
+            "Apa itu pembelajaran mesin (machine learning)?",
+            "Bagaimana cara kerja pembelajaran mesin secara sederhana?",
+            "Apa itu data pelatihan dalam pembelajaran mesin?",
+            "Apa tantangan utama dalam Machine Learning?",
+            "Apa contoh pembelajaran mesin yang sering kita gunakan?",
+            "Apa manfaat utama dari pembelajaran mesin?",
+            "Bagaimana komputer belajar dari data?",
+            "Apa yang membuat pembelajaran mesin berbeda dari program biasa?",
+            "Apa itu model dalam pembelajaran mesin?",
+            "Bagaimana cara sederhana untuk mulai belajar pembelajaran mesin?"
+        ]
+    },
+    "Supervised, Unsupervised and Reinforcement Learning": {
+        "questions": [
+            "Apa itu pembelajaran terawasi (supervised learning)?",
+            "Bagaimana pembelajaran tak terawasi (unsupervised learning) bekerja?",
+            "Apa itu reinforcement learning?",
+            "Apa contoh sederhana dari supervised learning?",
+            "Bagaimana AI belajar tanpa bimbingan dalam unsupervised learning?",
+            "Apa itu 'reward' dalam reinforcement learning?",
+            "Apa manfaat dari supervised learning untuk masalah sehari-hari?",
+            "Bagaimana clustering digunakan dalam unsupervised learning?",
+            "Apa contoh penggunaan reinforcement learning dalam game?",
+            "Apa perbedaan antara pembelajaran terawasi (supervised) dan tak terawasi (unsupervised)?"
+        ]
+    },
+    "Ensemble of Machine Learning": {
+        "questions": [
+            "Apa itu metode ensemble dalam pembelajaran mesin?",
+            "Bagaimana cara kerja metode ensemble secara sederhana?",
+            "Apa itu 'voting' dalam metode ensemble?",
+            "Apa contoh metode ensemble yang sering digunakan?",
+            "Bagaimana ensemble membantu meningkatkan akurasi model?",
+            "Apa itu Random Forest, dan bagaimana ia bekerja?",
+            "Apa perbedaan antara bagging dan boosting?",
+            "Apa manfaat utama dari menggunakan metode ensemble?",
+            "Apakah ensemble cocok untuk pemula dalam pembelajaran mesin?",
+            "Bagaimana cara memulai belajar tentang metode ensemble?"
+        ]
+    },
+    "Neural Network, Deep Learning, and Generative AI": {
+        "questions": [
+            "Apa itu deep learning?",
+            "Apa perbedaan antara deep learning dan pembelajaran mesin biasa?",
+            "Apa itu AI generatif, dan apa fungsinya?",
+            "Bagaimana gambar atau musik bisa dibuat oleh AI generatif?",
+            "Apa itu neural network dalam deep learning?",
+            "Apa manfaat dari deep learning dalam kehidupan sehari-hari?",
+            "Bagaimana AI generatif membantu dalam seni dan desain?",
+            "Apa contoh sederhana dari deep learning yang sering kita gunakan?",
+            "Apa tantangan dalam membuat model deep learning?",
+            "Bagaimana cara pemula mulai belajar tentang deep learning?"
+        ]
+    }
+}
