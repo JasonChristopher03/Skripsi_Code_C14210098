@@ -34,7 +34,7 @@ def download_db_from_bucket(destination_folder, source_folder="DB_5000/"):
 @st.cache_resource
 def load_model_and_tokenizer(model_id):
     tokenizer = AutoTokenizer.from_pretrained(model_id)
-    model = AutoModelForCausalLM.from_pretrained(model_id, torch_dtype=torch.float32)
+    model = AutoModelForCausalLM.from_pretrained(model_id, torch_dtype="auto", device_map="auto")
     return model, tokenizer
 
 @st.cache_resource
@@ -285,7 +285,7 @@ chatbot = st.session_state.chatbot
 modules = load_modules()
 module_questions = load_questions()
 
-# =============================
+ =============================
 # UI Flow
 # =============================
 if "page" not in st.session_state:
@@ -363,16 +363,15 @@ elif st.session_state.page == "chat":
                 st.chat_message("assistant").markdown(response)
                 st.session_state.messages.append({"role": "assistant", "content": response})
                 q_key = f"questions_for_{selected_module}"
-                
-                st.session_state[q_key] = random.sample(
-                    module_questions[selected_module]["questions"],
-                    k=min(3, len(module_questions[selected_module]["questions"]))
-                )
-
-                questions = st.session_state[q_key]
-                st.markdown("### Pertanyaan yang Dapat Anda Tanyakan")
-                for question in questions:
-                    st.markdown(f"- {question}")
             except Exception as e:
                 st.error("❌ Terjadi kesalahan saat memproses jawaban. Silakan coba lagi.")
                 st.error(e)
+        st.session_state[q_key] = random.sample(
+            module_questions[selected_module]["questions"],
+            k=min(3, len(module_questions[selected_module]["questions"]))
+        )
+
+        questions = st.session_state[q_key]
+        st.markdown("### Pertanyaan yang Dapat Anda Tanyakan")
+        for question in questions:
+            st.markdown(f"- {question}")
