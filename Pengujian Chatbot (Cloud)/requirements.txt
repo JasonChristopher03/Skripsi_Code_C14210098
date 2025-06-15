@@ -10,3 +10,4 @@ sentence-transformers
 google-cloud-storage
 pymupdf
 scikit-learn
+accelerate
