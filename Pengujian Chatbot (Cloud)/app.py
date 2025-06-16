@@ -34,7 +34,7 @@ def download_db_from_bucket(destination_folder, source_folder="DB_5000/"):
 @st.cache_resource
 def load_model_and_tokenizer(model_id):
     tokenizer = AutoTokenizer.from_pretrained(model_id)
-    model = AutoModelForCausalLM.from_pretrained(model_id, torch_dtype="auto", device_map="auto")
+    model = AutoModelForCausalLM.from_pretrained(model_id, torch_dtype=torch.float32)
     return model, tokenizer
 
 @st.cache_resource
