@@ -13,6 +13,7 @@ import os
 import re
 from google.cloud import storage
 
+
 # =============================
 # Function untuk Download DB dari GCS
 # =============================
@@ -28,6 +29,7 @@ def download_db_from_bucket(destination_folder, source_folder="DB_5000/"):
             os.makedirs(os.path.dirname(file_path), exist_ok=True)
             blob.download_to_filename(file_path)
 
+
 # =============================
 # Cached Loaders
 # =============================
@@ -37,13 +39,16 @@ def load_model_and_tokenizer(model_id):
     model = AutoModelForCausalLM.from_pretrained(model_id, torch_dtype=torch.float32)
     return model, tokenizer
 
+
 @st.cache_resource
 def load_embeddings(embedding_model):
     return HuggingFaceEmbeddings(model_name=embedding_model, model_kwargs={'device': 'cpu'})
 
+
 @st.cache_resource
 def load_chroma_db(_chroma_dir, _embeddings):
     return Chroma(persist_directory=_chroma_dir, embedding_function=_embeddings)
+
 
 @st.cache_resource
 def load_translation_model_EN():
@@ -51,11 +56,13 @@ def load_translation_model_EN():
     model = AutoModelForSeq2SeqLM.from_pretrained("Helsinki-NLP/opus-mt-id-en")
     return tokenizer, model
 
+
 @st.cache_resource
 def load_translation_model_ID():
     tokenizer = AutoTokenizer.from_pretrained("Helsinki-NLP/opus-mt-en-id")
     model = AutoModelForSeq2SeqLM.from_pretrained("Helsinki-NLP/opus-mt-en-id")
     return tokenizer, model
+
 
 @st.cache_resource
 def load_reranker_model(model_id):
@@ -63,11 +70,13 @@ def load_reranker_model(model_id):
     model = AutoModelForSequenceClassification.from_pretrained(model_id)
     return tokenizer, model
 
+
 # =============================
 # Class Chatbot
 # =============================
 class RAGChatbot:
-    def __init__(self, model, tokenizer, chroma_embeddings, chroma_db, toEN_tokenizer, toEN_model, toID_tokenizer, toID_model, reranker_tokenizer,
+    def __init__(self, model, tokenizer, chroma_embeddings, chroma_db, toEN_tokenizer, toEN_model, toID_tokenizer,
+                 toID_model, reranker_tokenizer,
                  reranker_model):
         self.model = model
         self.tokenizer = tokenizer
@@ -91,7 +100,7 @@ class RAGChatbot:
         sentences = re.split(r'(?<=[.!?])\s+', text.strip())
         seen_sentences = set()
         cleaned_sentences = []
-    
+
         for sentence in sentences:
             stripped = sentence.strip()
             if not re.search(r'[.!?]$', stripped):
@@ -100,18 +109,18 @@ class RAGChatbot:
             if normalized not in seen_sentences:
                 seen_sentences.add(normalized)
                 cleaned_sentences.append(stripped)
-    
+
         cleaned_text = " ".join(cleaned_sentences)
-    
+
         # 2. Deteksi semua item list (baik baris baru atau tidak)
         pattern = re.compile(r'\b\d{1,2}\.\s+(.*?)(?=\b\d{1,2}\.\s+|$)', flags=re.DOTALL)
         matches = pattern.findall(cleaned_text)
-    
+
         # 3. Ambil intro = semua sebelum list pertama
         first_match = re.search(r'\b\d{1,2}\.\s+', cleaned_text)
         intro = cleaned_text[:first_match.start()].strip() if first_match else cleaned_text
         list_section = matches if matches else []
-    
+
         # 4. Filter duplikat isi list
         seen_normalized = set()
         unique_items = []
@@ -121,12 +130,12 @@ class RAGChatbot:
             if norm not in seen_normalized and len(norm.split()) > 3:
                 seen_normalized.add(norm)
                 unique_items.append(item.strip())
-    
+
         # 5. Render ulang
         result = intro + "\n\n" if intro else ""
         for i, item in enumerate(unique_items, start=1):
             result += f"{i}. {item.strip()}\n"
-    
+
         return result.strip()
 
     def rerank_documents(self, docs, query, top_k=3):
@@ -155,15 +164,16 @@ class RAGChatbot:
 
         chroma_retriever = self.chroma_db.as_retriever(search_kwargs={'k': 5, 'filter': {'module': module_name}})
 
-        ensemble_retriever = EnsembleRetriever(retrievers=[bm25_retriever, chroma_retriever], weights=[alpha, 1-alpha])
+        ensemble_retriever = EnsembleRetriever(retrievers=[bm25_retriever, chroma_retriever],
+                                               weights=[alpha, 1 - alpha])
         docs = ensemble_retriever.invoke(query)
 
         return self.rerank_documents(docs, query, 1)
-            
-    def split_into_sentences(self,text):
+
+    def split_into_sentences(self, text):
         sentences = re.split(r'(?<=[.!?])\s+(?=\d+\.|[A-Z])', text)
         return [s.strip() for s in sentences if s.strip()]
-    
+
     def translate_sentence(self, sentence):
         inputs = self.toID_tokenizer(sentence, return_tensors="pt", padding=True, truncation=True, max_length=512)
         inputs = {k: v.to("cpu") for k, v in inputs.items()}
@@ -174,8 +184,8 @@ class RAGChatbot:
             eos_token_id=self.toID_tokenizer.eos_token_id
         )
         return self.toID_tokenizer.decode(outputs[0], skip_special_tokens=True)
-    
-    def translate_paragraph_to_indonesian(self,text):
+
+    def translate_paragraph_to_indonesian(self, text):
         sentences = self.split_into_sentences(text)
         return " ".join(self.translate_sentence(s) for s in sentences)
 
@@ -183,28 +193,28 @@ class RAGChatbot:
         sentences = self.split_into_sentences(text)
         if len(sentences) < window_size:
             return text
-    
+
         # Buat chunks per window_size
         chunks = [
-            " ".join(sentences[i:i+window_size])
+            " ".join(sentences[i:i + window_size])
             for i in range(len(sentences) - window_size + 1)
         ]
-    
+
         # Dapatkan embedding dan cosine similarity
         chunk_embeddings = self.embeddings.embed_documents(chunks)
         query_embedding = self.embeddings.embed_query(query)
         scores = cosine_similarity([query_embedding], chunk_embeddings)[0]
-    
+
         # Simpan chunk beserta index aslinya
         top_indices = scores.argsort()[-top_k:][::-1]
         top_chunks_with_index = [(i, chunks[i]) for i in top_indices]
-    
+
         # Sort berdasarkan urutan aslinya (index ascending)
         top_chunks_sorted = sorted(top_chunks_with_index, key=lambda x: x[0])
-    
+
         # Gabungkan hasil
         return " ".join([chunk for _, chunk in top_chunks_sorted])
-        
+
     def generate_rag_response(self, query, module_name):
         temp_query = query
         temp_query = self.translate_toEN(query)
@@ -215,7 +225,7 @@ class RAGChatbot:
         context = self.filter_relevant_chunks(query, context)
         context = self.preprocess_final_response(context)
         context = self.translate_paragraph_to_indonesian(context)
-        
+
         prompt = (
             "Kamu adalah asisten AI akademik yang akan membantu pembelajaran Artificial Intelligence dan Machine Learning. Jawabanmu harus berdasarkan semua informasi pendukung yang ada di bawah ini.\n\n"
             "Instruksi Utama:\n"
@@ -250,13 +260,14 @@ class RAGChatbot:
             do_sample=False,
             top_k=50,
         )
-        
+
         generated_ids = [
             output_ids[len(input_ids):] for input_ids, output_ids in zip(inputs.input_ids, generated_ids)
         ]
         response = tokenizer.batch_decode(generated_ids, skip_special_tokens=True)[0]
-        
+
         return self.preprocess_final_response(response)
+
 
 # =============================
 # Streamlit App
@@ -279,13 +290,14 @@ if "chatbot" not in st.session_state:
     toID_tokenizer, toID_model = load_translation_model_ID()
     reranker_tokenizer, reranker_model = load_reranker_model(reranker_model_id)
 
-    st.session_state.chatbot = RAGChatbot(model, tokenizer, embeddings, chroma_db, toEN_tokenizer, toEN_model, toID_tokenizer, toID_model, reranker_tokenizer, reranker_model)
+    st.session_state.chatbot = RAGChatbot(model, tokenizer, embeddings, chroma_db, toEN_tokenizer, toEN_model,
+                                          toID_tokenizer, toID_model, reranker_tokenizer, reranker_model)
 
 chatbot = st.session_state.chatbot
 modules = load_modules()
 module_questions = load_questions()
 
- =============================
+# =============================
 # UI Flow
 # =============================
 if "page" not in st.session_state:
@@ -317,7 +329,7 @@ if st.session_state.page == "intro":
 
 elif st.session_state.page == "chat":
     selected_module = st.sidebar.selectbox("Pilih Topik:", list(modules.keys()))
-    
+
     if "last_module" not in st.session_state:
         st.session_state.last_module = selected_module
 
