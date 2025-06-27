@@ -31,5 +31,5 @@ Berikut adalah cara memasukkan dataset ke dalam bucket di GCS:
 4. Setelah selesai, click create pada bagian akhir halaman dan tampilannya akan seperti gambar berikut
 ![Screenshot 2025-06-27 195059](https://github.com/user-attachments/assets/64855494-dd03-472a-a195-bd6972bb703f)
 5. Untuk menambahkan file, click upload lalu akan muncul 2 pilihan "Upload file" dan "Upload folder". Untuk menambahkan database chatbot, gunakan upload folder. Untuk menambahkan module.json dan question.json, gunakan upload file
-6. Setelah itu, tampilan akan seperti pada gamabr dibawah dan dataset siap dipakai 
+6. Setelah itu, tampilan akan seperti pada gamabr dibawah dan dataset siap dipakai. Note: Jangan lupa menyesuaikan nama bucket yang ada dalam app.py dengan nama bucket yang anda buat.
 ![Screenshot 2025-06-27 201226](https://github.com/user-attachments/assets/9264f332-32f1-4631-b7da-1214113ce9a5)
