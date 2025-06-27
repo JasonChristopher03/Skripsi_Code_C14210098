@@ -15,8 +15,18 @@ Note:
 - Jika memungkinkan untuk upgrade memory dan cpu dapat dibesarkan.
 7. Setelah itu tunggu sampai deploy selesai
 8. Ketika selesai, chatbot dapat dilihat di GCP bagian Cloud Run
+  
 ![image](https://github.com/user-attachments/assets/1a6a2884-ad5e-4e97-8d76-0d73fe0659cc)
 9. Jika sudah masuk ke dalam cloud run, akan terlihat chatbot yang sudah dideploy (dalam contoh gambar berikut, nama chatbot yang saya beri adalah chatbot-aiml 10)
 ![image](https://github.com/user-attachments/assets/ff6b14e2-bba2-4b53-a88b-1228f89b0c00)
 10. Untuk mengakses chatbot, klik nama chatbot dan klik link url yang ada.
 ![Screenshot 2025-06-27 193352](https://github.com/user-attachments/assets/7c685507-129a-4f4a-8c4f-3435f6ff0ebb)
+
+Berikut adalah cara memasukkan dataset ke dalam bucket di GCS:
+1. Dalam halaman utama project, klik garis 3 di kiri atas halaman (di kiri logo google cloud), lalu klik cloud storage > Buckets
+2. Jika belum pernah menggunakan bucktes di GCS, maka tampilan akan seperti pada gambar. Untuk membuat bucket baru dapat click create bucket. Jika sudah pernah membuat bucket dan ada bucket lain, dapat klik create disebelah refresh.
+![image](https://github.com/user-attachments/assets/79d39ccd-2606-4fa2-80b8-3389de7e1daf)
+3. Setelah itu, dapat memberikan nama sesuai keinginan dan mengkonfigurasi region tempat penyimpanan (disarankan menggunakan region yang sama dengan region chatbot)
+![image](https://github.com/user-attachments/assets/a93990b6-3673-4a3c-8014-ee3e4f2fb677)
+
+4. 
